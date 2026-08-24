@@ -1,6 +1,6 @@
 import os
 clear = lambda: os.system('cls')
-#added the os library so i could finally use clear()
+#added the os library so i could finally use clear(), got the code from stack overflow -w-
 
 print("Hello World!")
 print('Hello World!')
@@ -27,4 +27,8 @@ clear()
 
 n1=int(input("first number "))
 n2=int(input("second number "))
-print(n1+n2)
+result= n1/n2
+print(result)
+print(type(n1))
+print(type(n2))
+print(type(result))
