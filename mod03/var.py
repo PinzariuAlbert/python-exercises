@@ -27,7 +27,7 @@ user=input("Enter Your Name: ")
 print(user)
 print("Hello, "+ user + "!")"""
 
-n1=int(input("first number "))
+"""n1=int(input("first number "))
 n2=int(input("second number "))
 result= n1+n2
 print(type(n1))
@@ -39,4 +39,37 @@ division = n1/n2
 print(division)
 print(type(division))
 
-print(id(n1)==id(n2))
+print(id(n1)==id(n2))"""
+
+a1=10
+a2=-20
+a3=1.2
+a4=-2+3j
+a5=1_22_333_444
+
+print(a1)
+print(a2)
+print(a3)
+print(a4)
+print(a5)
+print(type(a1))
+print(type(a2))
+print(type(a3))
+print(type(a4))
+print(type(a5))
+
+s1="Hello"
+s2='Hello'
+s3="123"
+s4=""
+s5="Albert said: 'Hewwo'"
+
+print(s1)
+print(s2)
+print(s3)
+print(s4)
+print(s5)
+
+print(type(s3))
+s3_converted= float(s3)
+print(type(s3_converted))
