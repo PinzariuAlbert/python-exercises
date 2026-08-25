@@ -73,3 +73,23 @@ print(s5)
 print(type(s3))
 s3_converted= float(s3)
 print(type(s3_converted))
+
+clear()
+
+a6=7
+a7=2
+a8mod= a6%a7
+print(a8mod)
+a9floor=a6//a7
+print(a9floor)
+a10power=a6**a7
+print(a10power)
+
+farenheit_str= input("ENter a temperature: ")
+farenheit = float(farenheit_str)
+celsius = (farenheit-32)*5/9
+print("The temperature in Celcius: " + str(celsius))
+print(f"The temperature in Celsius:  {celsius:10.8f}")
+
+import math
+print(f"{'Pi':5s}:{math.pi:10.20f}")
