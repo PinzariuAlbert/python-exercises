@@ -1,4 +1,4 @@
-import random
+"""import random
 #1
 name=input("WHat is your name? ")
 print("Hello, "+name+"!")
@@ -18,14 +18,17 @@ n2=input("Enter the second number: ")
 n3=input("Enter the third number: ")
 print("The sum is: "+ str(int(n1)+int(n2)+int(n3)))
 print("The product is: "+ str(int(n1)*int(n2)*int(n3)))
-print("The average is: "+ str((int(n1)+int(n2)+int(n3))/3))
+print("The average is: "+ str((int(n1)+int(n2)+int(n3))/3))"""
 
 #5
-talents=input("Enter talents:\n")
-pounds=input("Enter punds:\n")
-lots=input("Enter lots:\n")
-print("The weight in modern units:\n" + ((talents*20)+pounds)*0,453592 + " kilograms and " )
+talents=float(input("Enter talents:\n"))
+pounds=float(input("Enter punds:\n"))
+lots=float(input("Enter lots:\n"))
+total_pounds = talents * 20 + pounds
+total_lots = total_pounds * 32 + lots
+total_grams = float(total_lots) * 13.3
 
+print("The weight in modern units: "+ str(total_grams // 1000)+" and "+str(total_grams % 1000)+"grams")
 #6
 combiation1= [random.randint(0, 9),random.randint(0, 9),random.randint(0, 9)]
 combiation2= [random.randint(1, 6),random.randint(1, 6),random.randint(1, 6),random.randint(1, 6)]
