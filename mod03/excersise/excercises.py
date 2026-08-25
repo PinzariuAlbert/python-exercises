@@ -1,4 +1,4 @@
-"""import random
+import random
 #1
 name=input("What is your name? ")
 print("Hello, "+name+"!")
@@ -18,7 +18,7 @@ n2=input("Enter the second number: ")
 n3=input("Enter the third number: ")
 print("The sum is: "+ str(int(n1)+int(n2)+int(n3)))
 print("The product is: "+ str(int(n1)*int(n2)*int(n3)))
-print("The average is: "+ str((int(n1)+int(n2)+int(n3))/3))"""
+print("The average is: "+ str((int(n1)+int(n2)+int(n3))/3))
 
 #5
 talents=float(input("Enter talents:\n"))
