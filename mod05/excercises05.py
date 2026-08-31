@@ -1,6 +1,6 @@
 import random
 #1
-"""i=1
+i=1
 while(i<=1000) :
       if (i%3==0) : 
          print(f"I found a number dividable by 3!! {i}")
@@ -54,6 +54,16 @@ while(fails<5 and correct==False):
           print("Your password or your username is wrong. Try again.\n")
   else: 
       print("Welcome!")
-      correct=True"""
+      correct=True
 
 #6
+N=int(input("How many points do you want to generate? "))
+N_copy=N
+n=0
+while(N_copy>0) : 
+   y = random.uniform(-1,1)
+   x=random.uniform(-1,1)
+   if(y*y+x*x<1) :
+     n+=1
+   N_copy-=1
+print(f"The value of pi is: {4*n/N}")   
