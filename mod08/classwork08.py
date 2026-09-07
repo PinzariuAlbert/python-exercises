@@ -4,7 +4,7 @@ def cast():
  first, second = random.randint(1,6), random.randint(1,6)
  return first, second
 die1, die2 = cast()
-print(f"The dice show {die1} and {die2}") """
+print(f"The dice show {die1} and {die2}") 
 
 numbers = {"Viivi":"050-1234567",
            "Ahmed":"040-1112223",
@@ -18,3 +18,6 @@ print(numbers)
 name = input("Enter name: ")
 if name in numbers:
     print(f"{name}'s phone number is {numbers[name]}.")
+"""
+cars = [{"model":"something"}, {"model":"anotehr thing"}]
+print(cars[0]["model"], cars[1]["model"])
