@@ -15,7 +15,7 @@ def change():
 city = "Helsinki"
 print("At the beginning in the main program: " + city)
 change()
-print("At the end of the main program: " + city)"""
+print("At the end of the main program: " + city)
 
 def averages(float_list):
     float_sum = 0
@@ -34,3 +34,12 @@ for n in range(len(average_list)):
     
     print(f"This is the {n+1} average: {average_list[int(n-1)]}")
             
+"""
+import random
+
+def cast():
+    first, second, third = random.randint(1,6), random.randint(1,6), random.randint(1,6)
+    return first, second, third
+
+die1, die2 = cast()
+print(f"The dice show {die1}. {die2}")
