@@ -2,10 +2,14 @@ import random
 money=0
 plots = []
 def checkInteractable(row, col):
-    if(row>4 or collumn>9 or row!=int or collumn!=int or row=="" or collumn!=""):
+    if(not str(row).isdigit() or not str(col).isdigit()):
         print("Error: Something wasn't inputed correctly!")
         return False
-    return True
+    elif(row>4 or col>9 or row<1 or col<1):
+        print("Error: Something wasn't inputed correctly!")
+        return False
+    else:
+     return True
     
 class Plot():
     def __init__(self,row,col,display_value=0, value=0, bugged=False):
@@ -17,13 +21,28 @@ class Plot():
         self.protection=1
     def plant(self, seed):
         self.seed=seed
-        if(seed=="wheat"):
-            if(self.value!=5):
+        if(seed=="wheat" or seed=="5"):
+ #           if(self.value!=5):
                 self.value=5
-        else: print("Seed aint real")
+                self.maxvalue=40
+        elif(seed=="carrot" or seed=="4"):
+             self.value=4
+             self.maxvalue=32
+        elif(seed=="cucumber" or seed=="3"):
+            self.value=3
+            self.maxvalue=27
+        elif(seed=="celery" or seed=="2"):
+            self.value=2
+            self.maxvalue=16
+        elif(seed=="potato" or seed=="1"):
+            self.value=1
+            self.maxvalue=7     
+        else: 
+            print("Seed aint real")
+            self.seed=""
         self.display_value=self.value
     def harvest(self, row, column):
-        if(self.value/len(self.seed)==len(self.seed)):
+        if(self.value/len(self.seed)>=len(self.seed)):
            global money
            money+=self.value
            self.value=0
@@ -61,9 +80,19 @@ class Plot():
                  plots[self.row][self.col+1].protection=2 ; plots[self.row][self.col+1].bug()
             self.bugged=False
         elif self.value!=0:
+         if(self.value<self.maxvalue):
             #put all the crop stuff here
-            if(self.value%5==0 and self.value!=0 and self.value/len(self.seed)<len(self.seed)):
+            if(self.seed=="wheat" or self.seed=="5"):
              self.value+=5
+            #elif(self.value%4==0 and self.value!=0 and (self.value+16)/len(self.seed)<len(self.seed)):     what was i even doing here...bs
+            elif(self.seed=="carrot" or self.seed=="4"):
+             self.value+=4
+            elif(self.seed=="cucumber" or self.seed=="3"):
+             self.value+=3
+            elif(self.seed=="celery" or self.seed=="2"):
+             self.value+=2
+            elif(self.seed=="potato" or self.seed=="1"):
+             self.value+=1
             #this part of the else is only related to "bugs"
             rnd_buggin= random.randint(0,25)
             if(rnd_buggin==0):
@@ -89,11 +118,11 @@ while(game==True):
         print()
 
  elif(command=="plant" or command=="p"):
-    row_coord=int(input("row coordinate: "))
-    collumn_coord=int(input("collumn coordinate: "))
+    row_coord=input("row coordinate: ")
+    collumn_coord=input("collumn coordinate: ")
     if(checkInteractable(row_coord,collumn_coord)): 
      seed_type=input("seed type: ")
-     plots[row_coord-1][collumn_coord-1].plant(seed_type)
+     plots[int(row_coord)-1][int(collumn_coord)-1].plant(seed_type)
 
  elif(command=="next" or command==""):
     for i in range(4):
@@ -101,15 +130,15 @@ while(game==True):
             plots[i][j].grow()
 
  elif(command=="harvest" or command=="h"):
-    row_coord=int(input("row coordinate: "))
-    collumn_coord=int(input("collumn coordinate: "))
+    row_coord=input("row coordinate: ")
+    collumn_coord=input("collumn coordinate: ")
     if(checkInteractable(row_coord,collumn_coord)): 
-     plots[row_coord-1][collumn_coord-1].harvest(row_coord,collumn_coord)
+     plots[int(row_coord)-1][int(collumn_coord)-1].harvest(int(row_coord),int(collumn_coord))
 
  elif(command=="debug" or command=="d"):
-    row_coord=int(input("row coordinate: "))
-    collumn_coord=int(input("collumn coordinate: "))
-    if(checkInteractable(row_coord,collumn_coord)): 
+    row_coord=input("row coordinate: ")
+    collumn_coord=input("collumn coordinate: ")
+    if(checkInteractable(int(row_coord),int(collumn_coord))): 
      plots[row_coord-1][collumn_coord-1].debug()
 
  elif(command=="mone"):
