@@ -5,7 +5,7 @@ def checkInteractable(row, col):
     if(not str(row).isdigit() or not str(col).isdigit()):
         print("Error: Something wasn't inputed correctly!")
         return False
-    elif(row>4 or col>9 or row<1 or col<1):
+    elif(int(row)>4 or int(col)>9 or int(row)<1 or int(col)<1):
         print("Error: Something wasn't inputed correctly!")
         return False
     else:
@@ -19,30 +19,36 @@ class Plot():
         self.row=row
         self.col=col
         self.protection=1
+        self.seed=""
     def plant(self, seed):
-        self.seed=seed
-        if(seed=="wheat" or seed=="5"):
+            global money
+            self.seed=seed
+            if(seed=="wheat" or seed=="5"):
+                if(money>=20):
  #           if(self.value!=5):
-                self.value=5
-                self.maxvalue=40
-        elif(seed=="carrot" or seed=="4"):
-             self.value=4
-             self.maxvalue=32
-        elif(seed=="cucumber" or seed=="3"):
-            self.value=3
-            self.maxvalue=27
-        elif(seed=="celery" or seed=="2"):
-            self.value=2
-            self.maxvalue=16
-        elif(seed=="potato" or seed=="1"):
-            self.value=1
-            self.maxvalue=7     
-        else: 
-            print("Seed aint real")
-            self.seed=""
-        self.display_value=self.value
+                    money-=20
+                    self.value=5
+                    self.maxvalue=40
+            elif(seed=="carrot" or seed=="4"):
+                if(money>=15):
+                    self.value=4
+                    self.maxvalue=32
+            elif(seed=="cucumber" or seed=="3"):
+                self.value=3
+                self.maxvalue=27
+            elif(seed=="celery" or seed=="2"):
+                self.value=2
+                self.maxvalue=16
+            elif(seed=="potato" or seed=="1"):
+                self.value=1
+                self.maxvalue=7     
+            else: 
+                print("Seed aint real")
+                self.seed=""
+            self.display_value=self.value
     def harvest(self, row, column):
-        if(self.value/len(self.seed)>=len(self.seed)):
+        if(self.seed!=""):
+         if(self.value==self.maxvalue):
            global money
            money+=self.value
            self.value=0
@@ -139,7 +145,7 @@ while(game==True):
     row_coord=input("row coordinate: ")
     collumn_coord=input("collumn coordinate: ")
     if(checkInteractable(int(row_coord),int(collumn_coord))): 
-     plots[row_coord-1][collumn_coord-1].debug()
+     plots[int(row_coord)-1][int(collumn_coord)-1].debug()
 
  elif(command=="mone"):
     print(money)
