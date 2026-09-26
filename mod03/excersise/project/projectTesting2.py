@@ -1,5 +1,5 @@
 import random
-money=0
+money=18
 plots = []
 def checkInteractable(row, col):
     if(not str(row).isdigit() or not str(col).isdigit()):
@@ -29,19 +29,31 @@ class Plot():
                     money-=20
                     self.value=5
                     self.maxvalue=40
+                else: print("You need more money!")   
             elif(seed=="carrot" or seed=="4"):
                 if(money>=15):
+                    money-=15
                     self.value=4
                     self.maxvalue=32
+                else: print("You need more money!")   
             elif(seed=="cucumber" or seed=="3"):
-                self.value=3
-                self.maxvalue=27
+                if(money>=11):
+                    money-=11
+                    self.value=3
+                    self.maxvalue=27
+                else: print("You need more money!")   
             elif(seed=="celery" or seed=="2"):
-                self.value=2
-                self.maxvalue=16
+                if(money>=8):
+                    money-=8
+                    self.value=2
+                    self.maxvalue=16
+                else: print("You need more money!")   
             elif(seed=="potato" or seed=="1"):
-                self.value=1
-                self.maxvalue=7     
+                if(money>=3):
+                    money-=3
+                    self.value=1
+                    self.maxvalue=7  
+                else: print("You need more money!")   
             else: 
                 print("Seed aint real")
                 self.seed=""
