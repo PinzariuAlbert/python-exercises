@@ -1,5 +1,6 @@
 import os
 import random
+#global money=18
 money=18
 plots = []
 clear = lambda: os.system('cls')
@@ -14,7 +15,7 @@ class Plot():
         self.protection=1
         self.seed=""
     def plant(self, seed):
-            #global money
+            global money
             self.seed=seed
             if(seed=="wheat" or seed=="5"):
                 if(money>=20):
@@ -123,6 +124,7 @@ def checkInteractable(row, col):
 
 def exit_def(): 
    print("Goodbye")
+
 class Items():
     def __init__(self):
         self.dict = {
@@ -131,14 +133,19 @@ class Items():
             "protection" : 0,
             "worker" : 0
         }
-    def item_add(requested):
+    def item_add(self,requested):
         if requested in self.dict:
            self.dict[requested]+=1
-        else: print("nuh, bad item")
-    def item_show():
+        else: print("nuh, Item doesn't exist")
+    def item_use(self,requested):
+        if requested in self.dict:
+            self.dict[requested]-=1
+        else: print("Item doesn't exist")
+    def item_show(self):
         print(self.dict)
 
 item_list=[]
+items= Items()
 #name=input("Enter your name: ")
 #age=input("Enter your age: ")
 #if int(age)<12 : print("Access denied.")
@@ -199,9 +206,8 @@ if True:
             
             elif(command=="buy" or command=="b"):
                 print("What would you want to buy?")
-                request=int(input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n"))
-                if(request==1):
-                    item_add("water")
+                request=input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n")
+                items.item_add(request)
 
             elif(command=="debug" or command=="d"):
                 row_coord=input("row coordinate: ")
