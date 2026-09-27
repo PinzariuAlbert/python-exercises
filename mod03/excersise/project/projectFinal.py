@@ -14,7 +14,7 @@ class Plot():
         self.protection=1
         self.seed=""
     def plant(self, seed):
-            global money
+            #global money
             self.seed=seed
             if(seed=="wheat" or seed=="5"):
                 if(money>=20):
