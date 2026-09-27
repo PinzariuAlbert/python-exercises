@@ -105,8 +105,8 @@ class Plot():
             elif(self.seed=="potato" or self.seed=="1"):
              self.value+=1
             #this part of the else is only related to "bugs"
-            rnd_buggin= random.randint(0,25)
-            if(rnd_buggin==0):
+            rnd_buggin= random.randint(0,15)
+            if(rnd_buggin==1):
                 self.bug()
             else:
                 self.display_value=self.value
@@ -120,7 +120,7 @@ def checkInteractable(row, col):
         return False
     else:
      return True
-     
+
 def exit_def(): 
    print("Goodbye")
 class Items():

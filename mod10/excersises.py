@@ -1,4 +1,5 @@
 # EX 1 2 and 3
+import random
 class Elevator:
     def __init__(self,bottom, top):
         self.bottom_floor = bottom
@@ -37,8 +38,6 @@ building.run_elevator(3,3)
 building.fire_alarm()
 
 #4
-import random
-
 class Car:
     def __init__(self,reg_number,max_speed=0,cur_speed=0,distance=0):
         self.reg_number=reg_number
@@ -57,5 +56,37 @@ class Car:
 class Race:
     def __init__(self, name, kilometers, car_list):
         self.name = name
-        self.name = kilometers
+        self.kilometers = kilometers
         self.car_list = car_list
+    def hour_passes(self):
+         for car in self.car_list:
+            speed_change = random.randint(-10, 15)
+            car.accelerate(speed_change)
+            car.drive(1)
+
+    def print_status(self):
+        print(f"{self.name} status")
+        for car in self.car_list:
+            print(f"Reg number{car.reg_number} | Max speed {car.max_speed} | Cur speed {car.cur_speed} | Distance{car.distance} km")
+
+    def race_finished(self):
+        for car in self.car_list:
+            if car.distance >= self.kilometers:
+                return True
+        return False
+cars = []
+for i in range(1, 11):
+    max_spd = random.randint(100, 200)
+    cars.append(Car(f"ABC-{i}", max_spd))
+race = Race("Grand Demolition Derby", 8000, cars)
+hours = 0
+
+while(not race.race_finished()):
+    race.hour_passes()
+    hours += 1
+    if(hours % 10 == 0):
+        print(f"\n[Hour {hours}]")
+        race.print_status()
+
+print(f"\nRace finished after {hours} hours!")
+race.print_status()
