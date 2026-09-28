@@ -12,7 +12,10 @@ class Plot():
         self.bugged=bugged
         self.row=row
         self.col=col
+    #item uses
         self.protection=1
+        self.watered=0
+        self.fertilized=0
         self.seed=""
     def plant(self, seed):
             global money
@@ -56,7 +59,11 @@ class Plot():
         if(self.seed!=""):
          if(self.value==self.maxvalue):
            global money
-           money+=self.value
+           if plots[row][col].fertilized>0:
+            plots[row][col].fertilized-=1
+            money+=int(self.value*1.5)
+           else:
+            money+=self.value
            self.value=0
            self.display_value=0
            self.seed=""
@@ -95,16 +102,37 @@ class Plot():
          if(self.value<self.maxvalue):
             #put all the crop stuff here
             if(self.seed=="wheat" or self.seed=="5"):
-             self.value+=5
+                if(self.watered>0):
+                    self.value+=10
+                    self.watered-=1
+                else:
+                     self.value+=5
             #elif(self.value%4==0 and self.value!=0 and (self.value+16)/len(self.seed)<len(self.seed)):     what was i even doing here...bs
             elif(self.seed=="carrot" or self.seed=="4"):
-             self.value+=4
+             if(self.watered>0):
+                    self.value+=8
+                    self.watered-=1
+             else:
+                     self.value+=4
             elif(self.seed=="cucumber" or self.seed=="3"):
-             self.value+=3
+             if(self.watered>0):
+                    self.value+=6
+                    self.watered-=1
+             else:
+                     self.value+=3
             elif(self.seed=="celery" or self.seed=="2"):
-             self.value+=2
+             if(self.watered>0):
+                    self.value+=4
+                    self.watered-=1
+             else:
+                     self.value+=2
             elif(self.seed=="potato" or self.seed=="1"):
-             self.value+=1
+             if(self.watered>0):
+                    self.value+=2
+                    self.watered-=1
+             else:
+                     self.value+=1
+            if(self.value>self.maxvalue): self.value=self.maxvalue
             #this part of the else is only related to "bugs"
             rnd_buggin= random.randint(0,15)
             if(rnd_buggin==1):
@@ -125,7 +153,7 @@ def checkInteractable(row, col):
 def exit_def(): 
    print("Goodbye")
 
-class Items():
+class Items(Plot):
     def __init__(self):
         self.dict = {
             "water" : 0,
@@ -137,8 +165,12 @@ class Items():
         if requested in self.dict:
            self.dict[requested]+=1
         else: print("nuh, Item doesn't exist")
-    def item_use(self,requested):
+    def item_use(self,row, col,requested):
         if requested in self.dict:
+            if(requested=="water"):
+                plots[row][col].watered=3
+            if(requested=="fertilizer"):
+                plots[row][col].fertilized=3
             self.dict[requested]-=1
         else: print("Item doesn't exist")
     def item_show(self):
