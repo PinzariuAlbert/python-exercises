@@ -3,8 +3,11 @@ import random
 #global money=18
 money=18
 plots = []
+field_size_row=2
+field_size_col=3
 clear = lambda: os.system('cls')
 #to do list: items(water, fertilizer,protection), workers for sutomatization, buying rows/colls, save/continue, make pretty
+#            make the error messages more serious(28.09)
 class Plot():
     def __init__(self,row,col,display_value=0, value=0, bugged=False):
         self.display_value=0  #uhhh, dont forget to use [ print(str(variable).zfill(2)) ]
@@ -55,12 +58,12 @@ class Plot():
                 print("Seed aint real")
                 self.seed=""
             self.display_value=self.value
-    def harvest(self, row, column):
+    def harvest(self):
         if(self.seed!=""):
          if(self.value==self.maxvalue):
            global money
-           if plots[row][col].fertilized>0:
-            plots[row][col].fertilized-=1
+           if plots[self.row][self.col].fertilized>0:
+            plots[self.row][self.col].fertilized-=1
             money+=int(self.value*1.5)
            else:
             money+=self.value
@@ -79,6 +82,7 @@ class Plot():
         else:self.display_value="&^"
     def debug(self):
         self.bugged=False
+        self.protection=1
         self.display_value=self.value
     def grow(self):
        # print("tried to grow")
@@ -134,17 +138,23 @@ class Plot():
                      self.value+=1
             if(self.value>self.maxvalue): self.value=self.maxvalue
             #this part of the else is only related to "bugs"
-            rnd_buggin= random.randint(0,15)
+            rnd_buggin= random.randint(0,2)
             if(rnd_buggin==1):
                 self.bug()
             else:
                 self.display_value=self.value
 
 def checkInteractable(row, col):
-    if(not str(row).isdigit() or not str(col).isdigit()):
+    if(row=="" or col==""):
+        clear()
         print("Error: Something wasn't inputed correctly!")
         return False
-    elif(int(row)>4 or int(col)>9 or int(row)<1 or int(col)<1):
+    elif(not str(row).isdigit() or not str(col).isdigit()):
+        clear()
+        print("Error: Something wasn't inputed correctly!")
+        return False
+    elif(int(row)>field_size_row or int(col)>field_size_col or int(row)<1 or int(col)<1):
+        clear()
         print("Error: Something wasn't inputed correctly!")
         return False
     else:
@@ -159,18 +169,54 @@ class Items(Plot):
             "water" : 0,
             "fertilizer" : 0,
             "protection" : 0,
-            "worker" : 0
+            "worker" : 0,
+            "motherboard": 0
         }
     def item_add(self,requested):
+        global money
+        global field_size_row
+        global field_size_col
+        global plots
         if requested in self.dict:
-           self.dict[requested]+=1
+            #if(request=="water"):
+            #    if(money>="")
+            if(requested=="motherboard"):
+                if(self.dict[requested]==0):
+                    if(money>=100):
+                        money-=100
+                        plots=[]
+                        field_size_row=5
+                        field_size_col=7
+                        for i in range(field_size_row):
+                            row=[]
+                            for j in range(field_size_col):
+                              row.append(Plot(i,j))
+                            plots.append(row)
+                        self.dict[requested]+=1
+                elif(self.dict[requested]==1):
+                    if(money>=3000):
+                        money-=3000
+                        plots=[]
+                        field_size_row=6
+                        field_size_col=12
+                        for i in range(field_size_row):
+                            row=[]
+                            for j in range(field_size_col):
+                              row.append(Plot(i,j))
+                            plots.append(row)
+                        self.dict[requested]+=1
+                else: print("You're at the maximum field level")
+            else: self.dict[requested]+=1
         else: print("nuh, Item doesn't exist")
     def item_use(self,row, col,requested):
-        if requested in self.dict:
+        if (requested in self.dict and self.dict[requested]>0):
             if(requested=="water"):
                 plots[row][col].watered=3
-            if(requested=="fertilizer"):
+            elif(requested=="fertilizer"):
                 plots[row][col].fertilized=3
+                                               #CHANGE PROTECTION, i need prot to deflect the bugs entirely. not just delay the destruction of the plant.
+            if(requested=="protection"):
+                plots[row][col].protection=3
             self.dict[requested]-=1
         else: print("Item doesn't exist")
     def item_show(self):
@@ -200,9 +246,9 @@ if True:
         clear()
         game=True
         print("You started the game!!")
-        for i in range(4):
+        for i in range(field_size_row):
               row=[]
-              for j in range(9):
+              for j in range(field_size_col):
                 row.append(Plot(i,j))
               plots.append(row)
         while(game==True):
@@ -225,8 +271,8 @@ if True:
 
             elif(command=="next" or command==""):
                 clear()
-                for i in range(4):
-                    for j in range(9):
+                for i in range(field_size_row):
+                    for j in range(field_size_col):
                         plots[i][j].grow()
 
             elif(command=="harvest" or command=="h"):
@@ -234,11 +280,12 @@ if True:
                 collumn_coord=input("collumn coordinate: ")
                 if(checkInteractable(row_coord,collumn_coord)): 
                     clear()
-                    plots[int(row_coord)-1][int(collumn_coord)-1].harvest(int(row_coord),int(collumn_coord))
+                    plots[int(row_coord)-1][int(collumn_coord)-1].harvest()
             
             elif(command=="buy" or command=="b"):
                 print("What would you want to buy?")
-                request=input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n")
+                request=input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n 7.New Motherboard(sell all your crops before hand)")
+                clear()
                 items.item_add(request)
 
             elif(command=="debug" or command=="d"):
@@ -251,9 +298,14 @@ if True:
             elif(command=="money"):
                 clear()
                 print(money)
-            if(command=="stop" or command=="exit"):
+            elif(command=="stop" or command=="exit"):
               clear()
               game=False
+            elif(command=="GiveMoney"):
+                money+=6000
+            else: 
+                clear()
+                print("Error: Command does not exist.")
 
      elif(command=="continue" or command == "CONTINUE" or command=="2"):
         print("You will continue from your save!") 
@@ -262,7 +314,7 @@ if True:
      #   item_add(item)
      #elif(command=="show items" or command == "SHOW ITEMS" or command=="4"):
      #   item_show()
-     elif(command=="options" or command == "OPTIONS" or command=="5"):
+     elif(command=="options" or command == "OPTIONS" or command=="5"): 
         print("This is the options menu")  
      elif(command=="lopeta" or command == "LOPETA" or command=="6"):
         exit_def()
