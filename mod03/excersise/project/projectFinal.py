@@ -93,14 +93,16 @@ class Plot():
             self.display_value=0
             self.seed=0
             self.protection=1
-            if(plots[self.row-1][self.col] and plots[self.row-1][self.col].value!=0):
-                 plots[self.row-1][self.col].protection=2 ; plots[self.row-1][self.col].bug()
-            if(plots[self.row][self.col-1] and plots[self.row][self.col-1].value!=0):
-                 plots[self.row][self.col-1].protection=2 ; plots[self.row][self.col-1].bug()
-            if(plots[self.row+1][self.col] and plots[self.row+1][self.col].value!=0):
-                 plots[self.row+1][self.col].protection=2 ; plots[self.row+1][self.col].bug()
-            if(plots[self.row][self.col+1] and plots[self.row][self.col+1].value!=0):
-                 plots[self.row][self.col+1].protection=2 ; plots[self.row][self.col+1].bug()
+            # maybe just check self.row-1>=0,, etc
+            # instead of "plots[self.row-1][self.col]!=None"
+            if( self.row-1>=0 and plots[self.row-1][self.col].value!=0):
+                 plots[self.row-1][self.col].protection=1 ; plots[self.row-1][self.col].bug()
+            if(self.col-1>=0 and plots[self.row][self.col-1].value!=0):
+                 plots[self.row][self.col-1].protection=1 ; plots[self.row][self.col-1].bug()
+            if(self.row+1<field_size_row and plots[self.row+1][self.col].value!=0):
+                 plots[self.row+1][self.col].protection=1 ; plots[self.row+1][self.col].bug()
+            if(self.col+1<field_size_col and plots[self.row][self.col+1].value!=0):
+                 plots[self.row][self.col+1].protection=1 ; plots[self.row][self.col+1].bug()
             self.bugged=False
         elif self.value!=0:
          if(self.value<self.maxvalue):
@@ -224,24 +226,15 @@ class Items(Plot):
 
 item_list=[]
 items= Items()
-#name=input("Enter your name: ")
-#age=input("Enter your age: ")
-#if int(age)<12 : print("Access denied.")
-#else:
-if True: 
+if True:
+    lengh=os.get_terminal_size().columns
     final_exit=True
     clear()
     while(final_exit) :
-    # print(f"\nWelcome to the game,{name}\n")
-     print("   Bit Defender\nA Farming Simulator\n\n")
-     print("1. START")
-     print("2. COTINUE")
-     #print("3. ADD ITEM")
-     #print("4. SHOW ITEMS")
-     print("5. OPTIONS")
-     print("6. LOPETA")
+     print("Bit Defender".center(lengh) + "A Farming Simulator\n".center(lengh))  
+     print( "1. START".center(lengh) + "2. CONTINUE".center(lengh) + "3. OPTIONS".center(lengh) +"4. LOPETA".center(lengh))
 
-     command= input("What command would you like to execute? ")
+     command= input("What command would you like to execute?".center(lengh) +"\n".center(lengh))
      if(command=="start" or command=="START" or command=="1"):
         clear()
         game=True
@@ -252,11 +245,10 @@ if True:
                 row.append(Plot(i,j))
               plots.append(row)
         while(game==True):
-            #if(command=="show" or command=="s"):
-            #i might as well make it so that the plots always show themselves
             for i in plots:
+                #print(" ".center(int(lengh/2-len(plots)*2)), end="")
                 for j in i:
-                    print(str(j.display_value).zfill(2), end=" ")
+                    print(str(j.display_value).zfill(2) , end=" ")
                 print()
             print(f"Current bytes: {money}")
             command=input("command: ")
@@ -265,7 +257,7 @@ if True:
                 row_coord=input("row coordinate: ")
                 collumn_coord=input("collumn coordinate: ")
                 if(checkInteractable(row_coord,collumn_coord)): 
-                    seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat")
+                    seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat ")
                     clear()
                     plots[int(row_coord)-1][int(collumn_coord)-1].plant(seed_type)
 
@@ -284,7 +276,7 @@ if True:
             
             elif(command=="buy" or command=="b"):
                 print("What would you want to buy?")
-                request=input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n 7.New Motherboard(sell all your crops before hand)")
+                request=input("0. Exit 1. Water(makes crops grow faster) \n 2. Fertilizer(makes crops give a bigger yeld) \n 3. Protection(makes crops un-buggable) \n 4. More rows \n 5. More columns \n 6. Worker\n 7.New Motherboard(sell all your crops before hand)\n")
                 clear()
                 items.item_add(request)
 
@@ -303,19 +295,15 @@ if True:
               game=False
             elif(command=="GiveMoney"):
                 money+=6000
+                clear()
             else: 
                 clear()
                 print("Error: Command does not exist.")
 
      elif(command=="continue" or command == "CONTINUE" or command=="2"):
-        print("You will continue from your save!") 
-     #elif(command=="add item" or command == "ADD ITEM" or command=="3"):
-     #   item=input("What item would you like to add? ")
-     #   item_add(item)
-     #elif(command=="show items" or command == "SHOW ITEMS" or command=="4"):
-     #   item_show()
-     elif(command=="options" or command == "OPTIONS" or command=="5"): 
-        print("This is the options menu")  
-     elif(command=="lopeta" or command == "LOPETA" or command=="6"):
+        print("You will continue from your save!")
+     elif(command=="options" or command == "OPTIONS" or command=="3"): 
+        print("This is the options menu")
+     elif(command=="exit" or command == "EXIT" or command=="4"):
         exit_def()
         final_exit=False
