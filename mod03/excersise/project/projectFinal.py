@@ -238,7 +238,9 @@ if True:
      if(command=="start" or command=="START" or command=="1"):
         clear()
         game=True
+        #print("Bit Defender".center(lengh))
         print("You started the game!!")
+        print(f"Current bytes: {money}".center(lengh))
         for i in range(field_size_row):
               row=[]
               for j in range(field_size_col):
@@ -246,11 +248,12 @@ if True:
               plots.append(row)
         while(game==True):
             for i in plots:
-                #print(" ".center(int(lengh/2-len(plots)*2)), end="")
+                print(" ".center(int(lengh/2-len(plots)*2)), end="")
                 for j in i:
                     print(str(j.display_value).zfill(2) , end=" ")
                 print()
-            print(f"Current bytes: {money}")
+            print("List of commands:".center(lengh),end="" + "1.Advance(next/"",1) 2.Plant(plant,p,2) 3.Harvest(harvest,h,3) 4.Debug(debug,d,4)".center(lengh) + "5.Buy(buy,b,5) 6.Exit(exit/e/6)".center(lengh))
+            print()
             command=input("command: ")
 
             if(command=="plant" or command=="p"):
@@ -290,7 +293,7 @@ if True:
             elif(command=="money"):
                 clear()
                 print(money)
-            elif(command=="stop" or command=="exit"):
+            elif(command=="stop" or command=="exit" or command=="e"):
               clear()
               game=False
             elif(command=="GiveMoney"):
