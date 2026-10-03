@@ -5,6 +5,8 @@ money=18
 plots = []
 field_size_row=2
 field_size_col=3
+bugged_col=[]
+bugged_row=[]
 clear = lambda: os.system('cls')
 #to do list: items(water, fertilizer,protection), workers for sutomatization, buying rows/colls, save/continue, make pretty
 #            make the error messages more serious(28.09)
@@ -21,9 +23,30 @@ class Plot():
         self.fertilized=0
         self.seed=""
     def plant(self, seed):
+        if(not(self.row+1 in bugged_row or self.col+1 in bugged_col)):
             global money
             self.seed=seed
-            if((seed=="wheat" or seed=="5") and items.dict["motherboard"]>=1):
+            if((seed=="watermelon" or seed=="9") and items.dict["motherboard"]>=2):
+                if(money>=60):
+                    money-=60
+                    self.value=9
+                    self.maxvalue=90
+            elif((seed=="strawberries" or seed=="8") and items.dict["motherboard"]>=2):
+                if(money>=40):
+                    money-=40
+                    self.value=8
+                    self.maxvalue=48
+            elif((seed=="pumpkin" or seed=="7") and items.dict["motherboard"]>=2):
+                if(money>=35):
+                    money-=35
+                    self.value=7
+                    self.maxvalue=56
+            elif((seed=="corn" or seed=="6") and items.dict["motherboard"]>=1):
+                if(money>=30):
+                    money-=30
+                    self.value=6
+                    self.maxvalue=42
+            elif((seed=="wheat" or seed=="5") and items.dict["motherboard"]>=1):
                 if(money>=20):
  #           if(self.value!=5):
                     money-=20
@@ -59,7 +82,7 @@ class Plot():
                 self.seed=""
             self.display_value=self.value
     def harvest(self):
-        if(self.seed!=""):
+        if(self.seed!="" and not (self.row+1 in bugged_row or self.col+1 in bugged_col)):
          if(self.value==self.maxvalue):
            global money
            if plots[self.row][self.col].fertilized>0:
@@ -83,12 +106,11 @@ class Plot():
             elif(rnd==1):
                 self.display_value="*/"
             else:self.display_value="&^"
-    #def bug2(self, row):
-     #   self.bugged=True
     def debug(self):
-        self.bugged=False
-        self.protection=0
-        self.display_value=self.value
+        if(not (self.row+1 in bugged_row or self.col+1 in bugged_col)):
+            self.bugged=False
+            self.protection=0
+            self.display_value=self.value
     def grow(self):
        # print("tried to grow")
         #if(self.bugged==True and self.protection!=0):
@@ -106,10 +128,31 @@ class Plot():
             if(self.col+1<field_size_col and plots[self.row][self.col+1].value!=0): plots[self.row][self.col+1].bug()
             self.bugged=False
         elif self.value!=0:
-         if(self.value<self.maxvalue):
+         if(self.row+1 not in bugged_row and self.col+1 not in bugged_col):
+          if(self.value<self.maxvalue):
             #put all the crop stuff here
             #                                              ADDDDDD MORE CROPS TO 7-9
-            if(self.seed=="wheat" or self.seed=="5"):
+            if(self.seed=="watermelon" or self.seed=="9"):
+             if(self.watered>0):
+                    self.value+=18
+             else:
+                     self.value+=9
+            elif(self.seed=="strawberries" or self.seed=="8"):
+             if(self.watered>0):
+                    self.value+=16
+             else:
+                     self.value+=8
+            elif(self.seed=="pumpkin" or self.seed=="7"):
+             if(self.watered>0):
+                    self.value+=14
+             else:
+                     self.value+=7
+            elif(self.seed=="corn" or self.seed=="6"):
+             if(self.watered>0):
+                    self.value+=12
+             else:
+                     self.value+=6
+            elif(self.seed=="wheat" or self.seed=="5"):
                 if(self.watered>0):
                     self.value+=10
                 else:
@@ -137,11 +180,25 @@ class Plot():
                      self.value+=1
             if(self.value>self.maxvalue): self.value=self.maxvalue
             #this part of the else is only related to "bugs"
-         rnd_buggin= random.randint(0,7)
+         rnd_buggin= random.randint(0,10)
          if(rnd_buggin==1):
                 self.bug()
          else:
                 self.display_value=self.value
+def bug2():
+    row_bug_value=random.randint(1,field_size_row)
+    col_bug_value=random.randint(1,field_size_col)
+    if(random.randint(0,1)==0):
+        if(row_bug_value not in bugged_row):
+            bugged_row.append(row_bug_value)
+    elif(col_bug_value not in bugged_col):
+        bugged_col.append(col_bug_value)
+def debug2(requested):
+    if( requested in bugged_row):
+        bugged_row.remove(requested)
+    if(requested in bugged_col):
+        bugged_col.remove(requested)
+
 def multi_plant(row1, col1,row2, col2, seed):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
@@ -179,7 +236,7 @@ class Items(Plot):
             "motherboard": 0,
             "multiplant": 0,
             "multiuse":0,
-            "multiharvvest":0
+            "multiharvest":0
         }
         self.total_workers=1
     def item_add(self,requested):
@@ -253,7 +310,7 @@ class Items(Plot):
                     else:
                         self.dict[requested]+=1
                 else: print("You do not have enough money.")
-            elif(requested=="multiharvvest"):
+            elif(requested=="multiharvest"):
                 if(money>=2500):
                     if(self.dict[requested]>0):
                         print("You already have this upgrade bought.")
@@ -262,6 +319,7 @@ class Items(Plot):
                 else: print("You do not have enough money.")
         else: print("Item does not exist.")
     def item_use(self,row, col,requested):
+     if(not(row in bugged_row or col in bugged_col)):
         if (requested in self.dict and self.dict[requested]>0):
             if(requested=="water"):
                 plots[row][col].watered=3
@@ -272,10 +330,10 @@ class Items(Plot):
                 plots[row][col].protection=3
             self.dict[requested]-=1
         else: print("Item doesn't exist")
-    def multi_use(row1, col1,row2, col2, requested):
+    def multi_use(self, row1, col1, row2, col2, requested):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
-                item_use(i,k,requested)
+                self.item_use(i,k,requested)
     def item_show(self):
         print(self.dict)
 
@@ -310,13 +368,31 @@ if True:
             for j in range(field_size_col):
                 show_col+=1
                 if(show_col>9):
-                    print(f" {show_col}",end="")
-                else:print(f"  {show_col}",end="")
+                    if(show_col in bugged_col):
+                        random_col = random.randint(10,12)
+                        while(random_col == show_col):
+                            random_col= random.randint(10,12)
+                        print(f" {random_col}",end="")
+                    else : print(f" {show_col}",end="")
+                else:
+                    if(show_col in bugged_col):
+                        random_col = random.randint(1,9)
+                        while(random_col == show_col):
+                            random_col= random.randint(1,9)
+                        print(f"  {random_col}",end="")
+                    #what was i on.. yes, there is a difference, it prints more spaces, jeez 
+                    else:
+                        print(f"  {show_col}",end="")
             print()
             for i in plots:
                 print(" ".center(int(lengh/2-len(plots)*3)), end="")
                 show_row+=1
-                print(f"{show_row}| ", end="")
+                if(show_row in bugged_row):
+                        random_row = random.randint(1,6)
+                        while(random_row == show_row):
+                            random_row= random.randint(1,6)
+                        print(f"{random_row}| ", end="")
+                else : print(f"{show_row}| ", end="")
                 
                 for j in i:
                     print(str(j.display_value).zfill(2) , end=" ")
@@ -332,14 +408,14 @@ if True:
                 collumn_coord=input("collumn coordinate: ")
                 if(checkInteractable(row_coord,collumn_coord)):
                     if(items.dict["motherboard"]>=2): 
-                        seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat 6. 7. 8. 9.\n".center(lengh))
+                        seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30) 7.pumpkin($35) 8.strawberries($40) 9.watermelon($60)\n".center(lengh))
                     elif(items.dict["motherboard"]==1):
-                        seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat 6.\n".center(lengh))
+                        seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30)\n".center(lengh))
                     else: 
-                        seed_type=input("seed type: 1.potato 2.celery 3.cucumber\n".center(lengh))
+                        seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11)\n".center(lengh))
                     clear()
                     plots[int(row_coord)-1][int(collumn_coord)-1].plant(seed_type)
-            if(command=="mutiplant" or command=="m" or command=="3"):
+            elif(command=="multiplant" or command=="mp" or command=="3"):
                 if(items.dict["multiplant"]>0):
                     row_coord1=input("first row coordinate: ")
                     collumn_coord1=input("first collumn coordinate: ")
@@ -347,14 +423,16 @@ if True:
                     collumn_coord2=input("second collumn coordinate: ")
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2, collumn_coord2)):
                         if(items.dict["motherboard"]>=2): 
-                            seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat 6. 7. 8. 9.\n".center(lengh))
+                            seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30) 7.pumpkin($35) 8.strawberries($40) 9.watermelon($60)\n".center(lengh))
                         elif(items.dict["motherboard"]==1):
-                            seed_type=input("seed type: 1.potato 2.celery 3.cucumber 4.carrot 5.wheat 6.\n".center(lengh))
+                            seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30)\n".center(lengh))
                         else: 
-                            seed_type=input("seed type: 1.potato 2.celery 3.cucumber\n".center(lengh))
+                            seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11)\n".center(lengh))
                         clear()
                         multi_plant(int(row_coord1),int(collumn_coord1),int(row_coord2), int(collumn_coord2),seed_type)
-                    else: print("You have not bought this upgrade yet.")
+                else: 
+                    clear()
+                    print("You have not bought this upgrade yet.")
             elif(command=="next" or command=="" or command=="1"):
                 clear()
               #  for i in range(field_size_row):
@@ -369,30 +447,35 @@ if True:
                             plots[i][j].grow()
                 for bplots in bugged_plots:
                     bplots.grow()
+                if(items.dict["motherboard"]>=2):
+                    if(random.randint(0, 40)==1):
+                        bug2()
 
             elif(command=="harvest" or command=="h" or command=="4"):
-                row_coord=input("row coordinate: ")
-                collumn_coord=input("collumn coordinate: ")
+                row_coord=input("row coordinate: ".center(lengh-5))
+                collumn_coord=input("collumn coordinate: ".center(lengh-5))
                 if(checkInteractable(row_coord,collumn_coord)): 
                     clear()
                     plots[int(row_coord)-1][int(collumn_coord)-1].harvest()
             elif(command=="multiharvest" or command=="mh" or command=="5"):
-                if(items.dict["multiharves"]>0):
-                    row_coord1=input("row coordinate: ")
-                    collumn_coord1=input("collumn coordinate: ")
-                    row_coord2=input("row coordinate: ")
-                    collumn_coord2=input("collumn coordinate: ")
+                if(items.dict["multiharvest"]>0):
+                    row_coord1=input("row coordinate: ".center(lengh-5))
+                    collumn_coord1=input("collumn coordinate: ".center(lengh-5))
+                    row_coord2=input("row coordinate: ".center(lengh-5))
+                    collumn_coord2=input("collumn coordinate: ".center(lengh-5))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2,collumn_coord2)): 
                         clear()
                         multi_harvest(int(row_coord1),int(collumn_coord1),int(row_coord2), int(collumn_coord2))
-                else: print("You have not bought this upgrade yet.")
+                else: 
+                    clear()
+                    print("You have not bought this upgrade yet.")
             
             elif(command=="buy" or command=="b" or command=="9"):
                 print("What would you want to buy?".center(lengh))
                 print("0. Exit 1. Water(makes crops grow faster) 2. Fertilizer(makes crops give a bigger yeld) 3. Protection(makes crops un-buggable) 4. Worker".center(lengh))
                 print("5. MultiPlant 6. MultiUse  7. MultiHarvest 8.New Motherboard(sell all your crops before hand)".center(lengh))
                 buy_request=input("item: \n".center(int(lengh)))
-                quantity=input("How many?: ")
+                quantity=input("How many?: ".center(lengh-4))
                 clear()
                 if(buy_request!=0 or buy_request!="exit" or quantity!=0 or quantity=="" or quantity.isdigit()):
                     for i in range(int(quantity)):
@@ -400,8 +483,8 @@ if True:
             elif(command=="use" or command=="u" or command=="6"):
                 print("What item do you want to use?".center(lengh))
                 print("0. Exit 1. Water 2. Fertilizer 3. Protection 4.Worker".center(lengh))
-                row_coord=input("row coordinate: ")
-                collumn_coord=input("collumn coordinate: ")
+                row_coord=input("row coordinate: ".center(lengh-5))
+                collumn_coord=input("collumn coordinate: ".center(lengh-5))
                 use_request=input("item: \n".center(lengh))
                 if(checkInteractable(row_coord,collumn_coord)): 
                     if(use_request!=0 or use_request!="exit"):
@@ -411,23 +494,38 @@ if True:
                 if(items.dict["multiuse"]>0):
                     print("What item do you want to use?".center(lengh))
                     print("0. Exit 1. Water 2. Fertilizer 3. Protection 4.Worker".center(lengh))
-                    row_coord1=input("first row coordinate: ")
-                    collumn_coord1=input("sirst collumn coordinate: ")
-                    row_coord2=input("second row coordinate: ")
-                    collumn_coord2=input("second collumn coordinate: ")
+                    row_coord1=input("first row coordinate: ".center(lengh-5))
+                    collumn_coord1=input("sirst collumn coordinate: ".center(lengh-5))
+                    row_coord2=input("second row coordinate: ".center(lengh-5))
+                    collumn_coord2=input("second collumn coordinate: ".center(lengh-5))
                     use_request=input("item: \n".center(lengh))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2, collumn_coord2)): 
                         if(use_request!=0 or use_request!="exit"):
                             clear()
-                            items.item_use(int(row_coord)-1,int(collumn_coord)-1,use_request)
+                            items.multi_use(int(row_coord1),int(collumn_coord1),int(row_coord2), int(collumn_coord2), use_request)
                 else: print("You have not bought this upgrade yet.")
                     
             elif(command=="debug" or command=="d" or command=="8"):
-                row_coord=input("row coordinate: ")
-                collumn_coord=input("collumn coordinate: ")
-                if(checkInteractable(row_coord,collumn_coord)): 
-                    clear()
-                    plots[int(row_coord)-1][int(collumn_coord)-1].debug()
+                if(items.dict["motherboard"]<2):
+                    row_coord=input("row coordinate: ".center(lengh-5))
+                    collumn_coord=input("collumn coordinate: ".center(lengh-5))
+                    if(checkInteractable(row_coord,collumn_coord)): 
+                        clear()
+                        plots[int(row_coord)-1][int(collumn_coord)-1].debug()
+                else:
+                    print("What do you want to debug? (plot(1)/line(2))\n".center(lengh))
+                    debug_command=input("".center(lengh))
+                    if(debug_command=="1" or debug_command=="plot"):
+                        row_coord=input("row coordinate: \n".center(lengh-5))
+                        collumn_coord=input("collumn coordinate: \n".center(lengh-5))
+                        if(checkInteractable(row_coord,collumn_coord)): 
+                            clear()
+                            plots[int(row_coord)-1][int(collumn_coord)-1].debug()
+                    elif(debug_command=="2" or debug_command=="line"):
+                        line_coord=input("line coordinate: \n".center(lengh))
+                        clear()
+                        debug2(int(line_coord))
+                    else: print("Error: Command does not exist.")
             elif(command=="exit" or command=="e" or command=="0"):
               clear()
               game=False
