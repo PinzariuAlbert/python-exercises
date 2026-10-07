@@ -336,8 +336,8 @@ class Items(Plot):
                 self.item_use(i,k,requested)
     def item_show(self):
         print(self.dict)
-
 items= Items()
+won= False
 if True:
     lengh=os.get_terminal_size().columns
     final_exit=True
@@ -361,6 +361,20 @@ if True:
               plots.append(row)
         while(game==True):
             print(f"Current bytes: {money}/10000".center(lengh))
+            if(money>=10000 and not won):
+                clear()
+                print("This is it. You have all the money you would need to finally get to the top.".center(lengh) +"But... something is not right.".center(lengh) + "You feel like you miss the times when the bugs were not constantly attacking you, you miss the attention the old Makers paid to every detail.".center(lengh) + "You miss they way you could count every polygon on the surface of your crops, you miss the old times...".center(lengh))
+                choice=input("The newer --- do offer so many advantages, but now you are not so sure about their worth.".center(lengh) + "What will you choose? Will you go back to the simpler times or will you adapt to your new life?".center(lengh) + "(continue/go back)\n".center(lengh))
+                if(choice=="continue"):
+                    plots=[]
+                    field_size_row=9
+                    field_size_col=36
+                for i in range(field_size_row):
+                            row=[]
+                            for j in range(field_size_col):
+                              row.append(Plot(i,j))
+                            plots.append(row)
+                won=True
             print("------------------------------------------------------------------------------------------------".center(lengh))
             show_row=0
             show_col=0
@@ -369,9 +383,9 @@ if True:
                 show_col+=1
                 if(show_col>9):
                     if(show_col in bugged_col):
-                        random_col = random.randint(10,12)
+                        random_col = random.randint(10,field_size_col)
                         while(random_col == show_col):
-                            random_col= random.randint(10,12)
+                            random_col= random.randint(10,field_size_col)
                         print(f" {random_col}",end="")
                     else : print(f" {show_col}",end="")
                 else:
@@ -401,6 +415,7 @@ if True:
             print("------------------------------------------------------------------------------------------------".center(lengh))
             print("List of commands:".center(lengh),end="" + "1.Advance(next,' ',1)".center(lengh) +"2.Plant(plant,p,2) 3.MultiPlant(multiplant,mp,3) 4.Harvest(harvest,h,3) 5.MultiHarvest(multiharvest,mh,5) 6.Use Item(use/u/6) 7.MultiUse(multiuse,mu,7)".center(lengh) + "8.Debug(debug,d,8) 9.Buy(buy,b,9) 10.Exit(exit/e/0)".center(lengh))
             print()
+            
             command=input("command: \n".center(lengh))
 
             if(command=="plant" or command=="p" or command=="2"):
