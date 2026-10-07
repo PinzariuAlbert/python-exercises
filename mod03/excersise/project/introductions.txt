@@ -1,9 +1,0 @@
-Game instructions:
-
-1. Move to another room.
-2. Collect an item.
-3. Show your items.
-4. Show information about the current room.
-5. Quit the game.
-
-Your progress will be saved when you quit.

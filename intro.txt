@@ -1,0 +1,5 @@
+Welcome to the game!
+
+You are entering a mysterious house.
+Explore the rooms and collect useful items.
+Good luck!

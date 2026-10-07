@@ -110,6 +110,17 @@ else:
 
     exit=False
     clear()
+    try:
+      with open("intro.txt", "r") as file:
+        print(file.read())
+    except FileNotFoundError:
+         print("intro.txt was not found.")
+
+    try:
+      with open("instructions.txt", "r") as file:
+        print(file.read())
+    except FileNotFoundError:
+      print("instructions.txt was not found.") 
     while(exit==False) :
      print(f"\nWelcome to the game,{name}\n")
      print("TITLE\n\n")

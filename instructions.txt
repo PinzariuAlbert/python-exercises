@@ -1,0 +1,10 @@
+INSTRUCTIONS
+
+1. Move between rooms.
+2. Collect items.
+3. Check your inventory.
+4. Check information about the room.
+5. Choose Quit to save your game.
+
+You can choose CONTINUE from the main menu
+to continue your saved game later.
