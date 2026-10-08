@@ -8,8 +8,10 @@ field_size_col=3
 bugged_col=[]
 bugged_row=[]
 clear = lambda: os.system('cls')
-#to do list: items(water, fertilizer,protection), workers for sutomatization, buying rows/colls, save/continue, make pretty
-#            make the error messages more serious(28.09)
+
+
+# This, down here, is the class that creates our plots. I use this function to make a matrix of game objects, this represents our "field"
+# in it there are fundamental functions that let us interact with the game, like planting, harvesting and advancing the time("grow").
 class Plot():
     def __init__(self,row,col,display_value=0, value=0, bugged=False):
         self.display_value=0  #uhhh, dont forget to use [ print(str(variable).zfill(2)) ]
@@ -185,6 +187,7 @@ class Plot():
                 self.bug()
          else:
                 self.display_value=self.value
+#functions that manage the secomd kind of Bug that you can encounter
 def bug2():
     row_bug_value=random.randint(1,field_size_row)
     col_bug_value=random.randint(1,field_size_col)
@@ -199,6 +202,7 @@ def debug2(requested):
     if(requested in bugged_col):
         bugged_col.remove(requested)
 
+#Functions that trigger your tools(like plant and harvest) on multiple plots at the same time
 def multi_plant(row1, col1,row2, col2, seed):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
@@ -207,6 +211,8 @@ def multi_harvest(row1, col1,row2, col2):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
                 plots[i][k].harvest(i,k)
+
+#I use this function to check if the input from the player is usable
 def checkInteractable(row, col):
     if(row=="" or col==""):
         clear()
@@ -226,6 +232,7 @@ def checkInteractable(row, col):
 def exit_def(): 
    print("Goodbye")
 
+# class that handples our items! it acts as an inventory and the way to use the items themselves
 class Items(Plot):
     def __init__(self):
         self.dict = {
@@ -329,7 +336,7 @@ class Items(Plot):
             if(requested=="protection"):
                 plots[row][col].protection=3
             self.dict[requested]-=1
-        else: print("Item doesn't exist")
+        else: print("Error: Item doesn't exist")
     def multi_use(self, row1, col1, row2, col2, requested):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
@@ -343,8 +350,10 @@ if True:
     final_exit=True
     clear()
     while(final_exit) :
+        #The start of the game, this is just the main menu. There was supposed to be a "Continue" button, but making the save system would take too long
      print("Bit Defender".center(lengh) + "A Farming Simulator\n".center(lengh))  
-     print( "1. START".center(lengh) + "2. CONTINUE".center(lengh) + "3. OPTIONS".center(lengh) +"4. LOPETA".center(lengh))
+     print( "1. START".center(lengh) #+ "2. CONTINUE".center(lengh)
+      + "2. OPTIONS".center(lengh) +"3. LOPETA".center(lengh))
 
      command= input("What command would you like to execute?".center(lengh) +"\n".center(lengh))
      if(command=="start" or command=="START" or command=="1"):
@@ -354,14 +363,19 @@ if True:
         clear()
         #print("Bit Defender".center(lengh))
         print("You started the game!!")
+        # making the field
         for i in range(field_size_row):
               row=[]
               for j in range(field_size_col):
                 row.append(Plot(i,j))
               plots.append(row)
         while(game==True):
+            
+          #This is the main game loop. The first lines of code here are only made for the looks of the game. I am printing the fields, the player data and the commands.
+
             print(f"Current bytes: {money}/10000".center(lengh))
             if(money>=10000 and not won):
+              while(not won):
                 clear()
                 print("This is it. You have all the money you would need to finally get to the top.".center(lengh) +"But... something is not right.".center(lengh) + "You feel like you miss the times when the bugs were not constantly attacking you, you miss the attention the old Makers paid to every detail.".center(lengh) + "You miss they way you could count every polygon on the surface of your crops, you miss the old times...".center(lengh))
                 choice=input("The newer --- do offer so many advantages, but now you are not so sure about their worth.".center(lengh) + "What will you choose? Will you go back to the simpler times or will you adapt to your new life?".center(lengh) + "(continue/go back)\n".center(lengh))
@@ -369,12 +383,24 @@ if True:
                     plots=[]
                     field_size_row=9
                     field_size_col=36
-                for i in range(field_size_row):
+                    for i in range(field_size_row):
                             row=[]
                             for j in range(field_size_col):
                               row.append(Plot(i,j))
                             plots.append(row)
-                won=True
+                    won=True
+                    clear()
+                elif(choice=="go back"):
+                    plots=[]
+                    field_size_row=4
+                    field_size_col=5
+                    for i in range(field_size_row):
+                            row=[]
+                            for j in range(field_size_col):
+                              row.append(Plot(i,j))
+                            plots.append(row)
+                    won=True
+                    clear()
             print("------------------------------------------------------------------------------------------------".center(lengh))
             show_row=0
             show_col=0
@@ -416,11 +442,13 @@ if True:
             print("List of commands:".center(lengh),end="" + "1.Advance(next,' ',1)".center(lengh) +"2.Plant(plant,p,2) 3.MultiPlant(multiplant,mp,3) 4.Harvest(harvest,h,3) 5.MultiHarvest(multiharvest,mh,5) 6.Use Item(use/u/6) 7.MultiUse(multiuse,mu,7)".center(lengh) + "8.Debug(debug,d,8) 9.Buy(buy,b,9) 10.Exit(exit/e/0)".center(lengh))
             print()
             
+            # After all the printing is done, the player can pick their command. The rest is pretty intuitive. 
+
             command=input("command: \n".center(lengh))
 
             if(command=="plant" or command=="p" or command=="2"):
-                row_coord=input("row coordinate: ")
-                collumn_coord=input("collumn coordinate: ")
+                row_coord=input("row coordinate: \n".center(lengh))
+                collumn_coord=input("collumn coordinate: \n".center(lengh))
                 if(checkInteractable(row_coord,collumn_coord)):
                     if(items.dict["motherboard"]>=2): 
                         seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30) 7.pumpkin($35) 8.strawberries($40) 9.watermelon($60)\n".center(lengh))
@@ -432,10 +460,10 @@ if True:
                     plots[int(row_coord)-1][int(collumn_coord)-1].plant(seed_type)
             elif(command=="multiplant" or command=="mp" or command=="3"):
                 if(items.dict["multiplant"]>0):
-                    row_coord1=input("first row coordinate: ")
-                    collumn_coord1=input("first collumn coordinate: ")
-                    row_coord2=input("second row coordinate: ")
-                    collumn_coord2=input("second collumn coordinate: ")
+                    row_coord1=input("first row coordinate: \n".center(lengh))
+                    collumn_coord1=input("first collumn coordinate: \n".center(lengh))
+                    row_coord2=input("second row coordinate: \n".center(lengh))
+                    collumn_coord2=input("second collumn coordinate: \n".center(lengh))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2, collumn_coord2)):
                         if(items.dict["motherboard"]>=2): 
                             seed_type=input("seed type: 1.potato($3) 2.celery($8) 3.cucumber($11) 4.carrot(15$) 5.wheat($20) 6.corn($30) 7.pumpkin($35) 8.strawberries($40) 9.watermelon($60)\n".center(lengh))
@@ -467,17 +495,17 @@ if True:
                         bug2()
 
             elif(command=="harvest" or command=="h" or command=="4"):
-                row_coord=input("row coordinate: ".center(lengh-5))
-                collumn_coord=input("collumn coordinate: ".center(lengh-5))
+                row_coord=input("row coordinate: \n".center(lengh-5))
+                collumn_coord=input("collumn coordinate: \n".center(lengh-5))
                 if(checkInteractable(row_coord,collumn_coord)): 
                     clear()
                     plots[int(row_coord)-1][int(collumn_coord)-1].harvest()
             elif(command=="multiharvest" or command=="mh" or command=="5"):
                 if(items.dict["multiharvest"]>0):
-                    row_coord1=input("row coordinate: ".center(lengh-5))
-                    collumn_coord1=input("collumn coordinate: ".center(lengh-5))
-                    row_coord2=input("row coordinate: ".center(lengh-5))
-                    collumn_coord2=input("collumn coordinate: ".center(lengh-5))
+                    row_coord1=input("row coordinate: \n".center(lengh-5))
+                    collumn_coord1=input("collumn coordinate: \n".center(lengh-5))
+                    row_coord2=input("row coordinate: \n".center(lengh-5))
+                    collumn_coord2=input("collumn coordinate: \n".center(lengh-5))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2,collumn_coord2)): 
                         clear()
                         multi_harvest(int(row_coord1),int(collumn_coord1),int(row_coord2), int(collumn_coord2))
@@ -486,21 +514,24 @@ if True:
                     print("You have not bought this upgrade yet.")
             
             elif(command=="buy" or command=="b" or command=="9"):
-                print("What would you want to buy?".center(lengh))
+                print("What would you want to buy? \n".center(lengh))
+
+                                          # The Worker you see here has not been implemented!! I could not get them to work as easily as I had hoped so for the time being they are a nonfunctional feature.
+
                 print("0. Exit 1. Water(makes crops grow faster) 2. Fertilizer(makes crops give a bigger yeld) 3. Protection(makes crops un-buggable) 4. Worker".center(lengh))
                 print("5. MultiPlant 6. MultiUse  7. MultiHarvest 8.New Motherboard(sell all your crops before hand)".center(lengh))
                 buy_request=input("item: \n".center(int(lengh)))
-                quantity=input("How many?: ".center(lengh-4))
+                quantity=input("How many?: \n".center(lengh-4))
                 clear()
-                if(buy_request!=0 or buy_request!="exit" or quantity!=0 or quantity=="" or quantity.isdigit()):
+                if(buy_request!=0 and buy_request!="exit" and quantity!=0 and quantity!="" and quantity.isdigit()):
                     for i in range(int(quantity)):
                         items.item_add(buy_request)
             elif(command=="use" or command=="u" or command=="6"):
                 print("What item do you want to use?".center(lengh))
                 print("0. Exit 1. Water 2. Fertilizer 3. Protection 4.Worker".center(lengh))
-                row_coord=input("row coordinate: ".center(lengh-5))
-                collumn_coord=input("collumn coordinate: ".center(lengh-5))
                 use_request=input("item: \n".center(lengh))
+                row_coord=input("row coordinate: \n".center(lengh-5))
+                collumn_coord=input("collumn coordinate: \n".center(lengh-5))
                 if(checkInteractable(row_coord,collumn_coord)): 
                     if(use_request!=0 or use_request!="exit"):
                         clear()
@@ -509,11 +540,11 @@ if True:
                 if(items.dict["multiuse"]>0):
                     print("What item do you want to use?".center(lengh))
                     print("0. Exit 1. Water 2. Fertilizer 3. Protection 4.Worker".center(lengh))
-                    row_coord1=input("first row coordinate: ".center(lengh-5))
-                    collumn_coord1=input("sirst collumn coordinate: ".center(lengh-5))
-                    row_coord2=input("second row coordinate: ".center(lengh-5))
-                    collumn_coord2=input("second collumn coordinate: ".center(lengh-5))
                     use_request=input("item: \n".center(lengh))
+                    row_coord1=input("first row coordinate: \n".center(lengh-5))
+                    collumn_coord1=input("sirst collumn coordinate: \n".center(lengh-5))
+                    row_coord2=input("second row coordinate: \n".center(lengh-5))
+                    collumn_coord2=input("second collumn coordinate: \n".center(lengh-5))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2, collumn_coord2)): 
                         if(use_request!=0 or use_request!="exit"):
                             clear()
@@ -551,10 +582,10 @@ if True:
                 clear()
                 print("Error: Command does not exist.")
 
-     elif(command=="continue" or command == "CONTINUE" or command=="2"):
-        print("You will continue from your save!")
-     elif(command=="options" or command == "OPTIONS" or command=="3"): 
+     #elif(command=="continue" or command == "CONTINUE" or command=="2"):
+      #  print("You will continue from your save!")
+     elif(command=="options" or command == "OPTIONS" or command=="2"): 
         print("This is the options menu")
-     elif(command=="exit" or command == "EXIT" or command=="4"):
+     elif(command=="exit" or command == "EXIT" or command=="3"):
         exit_def()
         final_exit=False

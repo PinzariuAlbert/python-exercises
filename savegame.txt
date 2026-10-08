@@ -1,1 +1,1 @@
-{"player_name": "al", "current_room": "Entrance", "inventory": [], "room_items": {"Entrance": {"name": "Key", "weight": 1}, "Basement": {"name": "Potion", "weight": 2}, "Lobby": {"name": "Coin", "weight": 1}, "Kitchen": null}}
+{"player_name": "al", "current_room": "Entrance", "inventory": [{"name": "Key", "weight": 1}], "room_items": {"Entrance": null, "Basement": {"name": "Potion", "weight": 2}, "Lobby": {"name": "Coin", "weight": 1}, "Kitchen": null}}
