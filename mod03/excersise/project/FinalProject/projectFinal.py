@@ -210,7 +210,7 @@ def multi_plant(row1, col1,row2, col2, seed):
 def multi_harvest(row1, col1,row2, col2):
         for i in range(row1-1, row2):
             for k in range(col1-1, col2):
-                plots[i][k].harvest(i,k)
+                plots[i][k].harvest()
 
 #I use this function to check if the input from the player is usable
 def checkInteractable(row, col):
@@ -308,6 +308,7 @@ class Items(Plot):
                     if(self.dict[requested]>0):
                         print("You already have this upgrade bought.")
                     else:
+                        money-=1000
                         self.dict[requested]+=1
                 else: print("You do not have enough money.")
             elif(requested=="multiplant"):
@@ -315,6 +316,7 @@ class Items(Plot):
                     if(self.dict[requested]>0):
                         print("You already have this upgrade bought.")
                     else:
+                        money-=1000
                         self.dict[requested]+=1
                 else: print("You do not have enough money.")
             elif(requested=="multiharvest"):
@@ -322,6 +324,7 @@ class Items(Plot):
                     if(self.dict[requested]>0):
                         print("You already have this upgrade bought.")
                     else:
+                        money-=2500
                         self.dict[requested]+=1
                 else: print("You do not have enough money.")
         else: print("Item does not exist.")
@@ -502,10 +505,10 @@ if True:
                     plots[int(row_coord)-1][int(collumn_coord)-1].harvest()
             elif(command=="multiharvest" or command=="mh" or command=="5"):
                 if(items.dict["multiharvest"]>0):
-                    row_coord1=input("row coordinate: \n".center(lengh-5))
-                    collumn_coord1=input("collumn coordinate: \n".center(lengh-5))
-                    row_coord2=input("row coordinate: \n".center(lengh-5))
-                    collumn_coord2=input("collumn coordinate: \n".center(lengh-5))
+                    row_coord1=input("first row coordinate: \n".center(lengh-5))
+                    collumn_coord1=input("fisrt collumn coordinate: \n".center(lengh-5))
+                    row_coord2=input("second row coordinate: \n".center(lengh-5))
+                    collumn_coord2=input("second collumn coordinate: \n".center(lengh-5))
                     if(checkInteractable(row_coord1,collumn_coord1) and checkInteractable(row_coord2,collumn_coord2)): 
                         clear()
                         multi_harvest(int(row_coord1),int(collumn_coord1),int(row_coord2), int(collumn_coord2))
@@ -518,8 +521,8 @@ if True:
 
                                           # The Worker you see here has not been implemented!! I could not get them to work as easily as I had hoped so for the time being they are a nonfunctional feature.
 
-                print("0. Exit 1. Water(makes crops grow faster) 2. Fertilizer(makes crops give a bigger yeld) 3. Protection(makes crops un-buggable) 4. Worker".center(lengh))
-                print("5. MultiPlant 6. MultiUse  7. MultiHarvest 8.New Motherboard(sell all your crops before hand)".center(lengh))
+                print("0. Exit 1. Water(makes crops grow faster)[20] 2. Fertilizer(makes crops give a bigger yeld)[30] 3. Protection(makes crops un-buggable)[40] 4. Worker[100]".center(lengh))
+                print("5. MultiPlant[1000] 6. MultiUse[1000]  7. MultiHarvest[2500] 8.New Motherboard(sell all your crops before hand)[100/3000]".center(lengh))
                 buy_request=input("item: \n".center(int(lengh)))
                 quantity=input("How many?: \n".center(lengh-4))
                 clear()
