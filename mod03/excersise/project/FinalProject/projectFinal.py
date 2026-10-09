@@ -346,6 +346,7 @@ class Items(Plot):
                 self.item_use(i,k,requested)
     def item_show(self):
         print(self.dict)
+
 items= Items()
 won= False
 if True:
