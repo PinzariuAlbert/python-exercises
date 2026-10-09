@@ -556,8 +556,8 @@ if True:
                     
             elif(command=="debug" or command=="d" or command=="8"):
                 if(items.dict["motherboard"]<2):
-                    row_coord=input("row coordinate: ".center(lengh-5))
-                    collumn_coord=input("collumn coordinate: ".center(lengh-5))
+                    row_coord=input("row coordinate: \n".center(lengh-5))
+                    collumn_coord=input("collumn coordinate: \n".center(lengh-5))
                     if(checkInteractable(row_coord,collumn_coord)): 
                         clear()
                         plots[int(row_coord)-1][int(collumn_coord)-1].debug()
