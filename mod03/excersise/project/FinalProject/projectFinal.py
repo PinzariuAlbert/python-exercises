@@ -9,7 +9,6 @@ bugged_col=[]
 bugged_row=[]
 clear = lambda: os.system('cls')
 
-
 # This, down here, is the class that creates our plots. I use this function to make a matrix of game objects, this represents our "field"
 # in it there are fundamental functions that let us interact with the game, like planting, harvesting and advancing the time("grow").
 class Plot():
@@ -365,6 +364,7 @@ if True:
         game=True
         input("You are a poor byte farmer.".center(lengh) + "You have seen newer and better generations of hardware appearing every year while you are stuck on your old, prone to crashes and bugs motherboard from 2007.".center(lengh) + '"Enough is enough.." you said to yourself as you grabbed your hoe and de-bugging kit, and headed out your folder into the files.'.center(lengh) + "Press enter to continue: \n".center(lengh-1))
         clear()
+        plots=[]
         #print("Bit Defender".center(lengh))
         print("You started the game!!")
         # making the field
