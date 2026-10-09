@@ -381,7 +381,7 @@ if True:
               while(not won):
                 clear()
                 print("This is it. You have all the money you would need to finally get to the top.".center(lengh) +"But... something is not right.".center(lengh) + "You feel like you miss the times when the bugs were not constantly attacking you, you miss the attention the old Makers paid to every detail.".center(lengh) + "You miss they way you could count every polygon on the surface of your crops, you miss the old times...".center(lengh))
-                choice=input("The newer --- do offer so many advantages, but now you are not so sure about their worth.".center(lengh) + "What will you choose? Will you go back to the simpler times or will you adapt to your new life?".center(lengh) + "(continue/go back)\n".center(lengh))
+                choice=input("The upgrades do offer many advantages, but now you are not so sure about their worth.".center(lengh) + "What will you choose? Will you go back to the simpler times or will you adapt to your new life?".center(lengh) + "(continue/go back)\n".center(lengh))
                 if(choice=="continue"):
                     plots=[]
                     field_size_row=9
