@@ -522,7 +522,7 @@ if True:
 
                                           # The Worker you see here has not been implemented!! I could not get them to work as easily as I had hoped so for the time being they are a nonfunctional feature.
 
-                print("0. Exit 1. Water(makes crops grow faster)[20] 2. Fertilizer(makes crops give a bigger yeld)[30] 3. Protection(makes crops un-buggable)[40] 4. Worker[100]".center(lengh))
+                print("0. Exit 1. Water(makes crops grow faster)[20] 2. Fertilizer(makes crops give a bigger yeld)[30] 3. Protection(makes crops un-buggable)[40] ".center(lengh))
                 print("5. MultiPlant[1000] 6. MultiUse[1000]  7. MultiHarvest[2500] 8.New Motherboard(sell all your crops before hand)[100/3000]".center(lengh))
                 buy_request=input("item: \n".center(int(lengh)))
                 quantity=input("How many?: \n".center(lengh-4))
