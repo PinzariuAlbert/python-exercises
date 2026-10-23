@@ -1,0 +1,19 @@
+.ground{
+    background: linear-gradient(to top, #683e2a, #8d543a);
+    height: 100%;
+    width: 100%;
+}
+.grass{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+
+    position: absolute;
+    align-self: center;
+    position: absolute;
+    background: #64b22e;
+    
+    height: 85%;
+    width: 80%;
+}

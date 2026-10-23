@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebra</title>
+</head>
+<body>
+    <p id="target1"></p>
+    <p id="target2"></p>
+    <p id="target3"></p>
+    <script>
+       n1 = prompt("Enter the first number:")
+       n2 = prompt("Enter the second number:")
+       n3 = prompt("Enter the third number:")
+       document.querySelector("#target1").innerHTML ="The Sum: " +  (parseInt(n1)+parseInt(n2)+parseInt(n3));
+    document.querySelector("#target2").innerHTML ="The product: " +  parseInt(n1)*parseInt(n2)*parseInt(n3);
+    document.querySelector("#target3").innerHTML ="The average: " +  (parseInt(n1)+parseInt(n2)+parseInt(n3))/3;
+    </script>
+</body>
+</html>
